@@ -15,7 +15,16 @@ if [ $# -lt 2 ]; then
 fi
 
 var="<launch>"
-var="$var <node name=\"$2\" pkg=\"$1\" type=\"$2\" />"
+var="$var <node name=\"$2\" pkg=\"$1\" type=\"$2\">"
+
+for args in "${@:3}"
+    do
+        first=$(echo $args | sed -E 's/(.*):=(.*)/\1/')
+        second=$(echo $args | sed -E 's/(.*):=(.*)/\2/')
+        var="$var <param name=\"$first\" value=\"$second\" />"
+    done
+
+var="$var </node>"
 var="$var </launch>"
 
 package=$1
@@ -78,7 +87,6 @@ fi
 shift
 shift
 
-echo $var
 pkgdir=`rospack find $package`
 echo $var > "$pkgdir/var.tmp"
 roslaunch "$package" "var.tmp"
