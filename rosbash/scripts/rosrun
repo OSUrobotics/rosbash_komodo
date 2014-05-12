@@ -13,6 +13,13 @@ if [ $# -lt 2 ]; then
   echo "  If it finds it, it will run it with ARGS."
   exit 1
 fi
+
+var="<launch>"
+var="$var <node name=\"$2\" pkg=\"$1\" type=\"$2\" />"
+var="$var </launch>"
+
+package=$1
+runner=$2
 # early check that filename does not end with '/'
 case $2 in
   */) echo "Invalid filename: " $2
@@ -70,4 +77,11 @@ else
 fi
 shift
 shift
-exec $exepath "$@"
+
+echo $var
+pkgdir=`rospack find $package`
+echo $var > "$pkgdir/var.tmp"
+roslaunch "$package" "var.tmp"
+rm "$pkgdir/var.tmp"
+
+#exec $exepath "$@"
