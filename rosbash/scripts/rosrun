@@ -87,9 +87,14 @@ fi
 shift
 shift
 
+a=`rosnode list`
+
+if [[ -z $a ]]; then
+    exit 1
+fi
 pkgdir=`rospack find $package`
-echo $var > "$pkgdir/var.tmp"
-roslaunch "$package" "var.tmp"
-rm "$pkgdir/var.tmp"
+echo $var > "/tmp/$package.tmp"
+roslaunch "/tmp/$package.tmp"
+rm -f "/tmp/$package.tmp"
 
 #exec $exepath "$@"
