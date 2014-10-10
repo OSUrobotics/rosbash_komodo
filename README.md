@@ -1,4 +1,4 @@
-rosbash_komodo
+rosbash_palantir
 ==============
 
-Roskomodo modification of rosbash. Roskomdo needs rosrun to invoke roslaunch.
+Palantir modification of rosbash. Palantir needs rosrun to invoke roslaunch.
